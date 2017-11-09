@@ -11,6 +11,7 @@ class AuthController extends Controller
 {
     public function index(Request $request)
     {
+
         $count = null;
         $name = null;
 
@@ -65,10 +66,10 @@ class AuthController extends Controller
 
     public function passwordRecovery(Request $request)
     {
-        $user = User::findEmail($request->input('email'));
-
-        if($user->secret_phrase == md5($request->input('secret_phrase'))){
-            return response(Response::HTTP_OK);
+        if($user = User::findEmail($request->input('email'))) {
+            if($user->secret_phrase == md5($request->input('secret_phrase'))){
+                return response(Response::HTTP_OK);
+            }
         }
 
         return response(
